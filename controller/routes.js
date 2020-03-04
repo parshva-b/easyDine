@@ -1,15 +1,29 @@
 const router = require('express').Router()
 
+var sess
+
 router.get('/', (req, res) => {
-    res.json({
+    if(sess) res.json({
+        message: `Hello ${sess.email}`
+    })
+    else res.json({
         message: 'Hello World'
     })
 })
 
-router.get('/add', (req, res) => {
+router.post('/login', (req, res) => {
     const body = req.body
-    console.log('body:', body)
-    res.json(body.a + body.b)
+    sess = req.session
+    // check in DB, take password if not throw error
+
+    sess.email = body.email
+    // sess.id = mongodbfetch
+    res.json(sess)
+})
+
+router.get('/resturant', (req, res) => {
+    // get all resturants from mongoDB
+    // res.json()
 })
 
 module.exports = router
